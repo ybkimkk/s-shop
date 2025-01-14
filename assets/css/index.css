@@ -2,28 +2,26 @@ body {
     background: #F8F9FA;
 }
 
-/* 取消 a 标签的下划线、默认颜色以及点击后的样式 */
 a {
     text-decoration: none; /* 去掉下划线 */
     color: inherit; /* 继承父元素的颜色 */
 }
 
-/* 取消点击后的颜色变化 */
 a:visited {
     color: inherit; /* 使访问过的链接颜色和父元素的颜色一致 */
 }
 
-/* 取消激活状态下的颜色变化 */
 a:active {
     color: inherit; /* 点击时的颜色与父元素一致 */
 }
 
-/* 如果你希望 hover 时有些样式，可以添加 */
 a:hover {
     color: inherit; /* 或者可以设置特定的颜色 */
     text-decoration: none; /* 如果需要 hover 时显示下划线，可以启用 */
 }
-
+.container-page {
+    padding-bottom:100px;
+}
 .product-card {
     border-radius: 15px;
     overflow: hidden;

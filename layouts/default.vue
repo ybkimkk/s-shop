@@ -41,7 +41,5 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.container-page {
-  padding-bottom:100px;
-}
+
 </style>
