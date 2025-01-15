@@ -9,7 +9,7 @@ const titleStore = useTitleStore();
 // 设置页面标题
 titleStore.setTitle('我的收益');
 
-
+const active = ref(0);
 </script>
 
 <template>
@@ -21,11 +21,22 @@ titleStore.setTitle('我的收益');
                   size="small"/>
     </van-space>
   </amount-card>
-  <van-tabs v-model:active="active">
-    <van-tab title="标签 1">内容 1</van-tab>
-    <van-tab title="标签 2">内容 2</van-tab>
-    <van-tab title="标签 3">内容 3</van-tab>
-    <van-tab title="标签 4">内容 4</van-tab>
+  <van-tabs class="m-t-3" v-model:active="active">
+    <van-tab title="推荐">an-tab title="全部">
+      <van-empty image="search" description="暂无订单"/>
+    </van-tab>
+    <van-tab title="分红">an-tab title="全部">
+      <van-empty image="search" description="暂无订单"/>
+    </van-tab>
+    <van-tab title="提现">an-tab title="全部">
+      <van-empty image="search" description="暂无订单"/>
+    </van-tab>
+    <van-tab title="转账">an-tab title="全部">
+      <van-empty image="search" description="暂无订单"/>
+    </van-tab>
+    <van-tab title="余额">an-tab title="全部">
+      <van-empty image="search" description="暂无订单"/>
+    </van-tab>
   </van-tabs>
 </template>
 

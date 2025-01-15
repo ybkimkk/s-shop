@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import ModuleCard from "~/component/moduleCard.vue";
 import AmountCard from "~/component/amountCard.vue";
+import {showConfirmDialog} from "vant";
 
+const router = useRouter()
 const myApp = [
   {img: 'https://app.yammevli.cn/static/icons/room.png', text: '我的队伍', url: '/'},
   {img: 'https://app.yammevli.cn/static/icons/my1.png', text: '我的团队', url: '/'},
@@ -10,10 +12,8 @@ const myApp = [
   {img: 'https://app.yammevli.cn/static/icons/my5.png', text: '收货地址', url: '/'},
   {img: 'https://app.yammevli.cn/static/icons/my6.png', text: '更改手机号', url: '/'},
   {img: 'https://app.yammevli.cn/static/icons/my7.png', text: '联系客服', url: '/'},
-  {img: 'https://app.yammevli.cn/static/icons/pwd.png', text: '重置支付密码', url: '/'},
+  {img: 'https://app.yammevli.cn/static/icons/pwd.png', text: '重置支付密码', url: '/password/pay'},
 ]
-
-
 
 const myOrder = [
   {
@@ -29,6 +29,22 @@ const myOrder = [
     text: '已完成'
   },
 ]
+
+const onClickTransfer = () => {
+  alertSetting();
+}
+const onClickWithdraw = () => {
+  alertSetting();
+}
+
+const alertSetting = () => {
+  showConfirmDialog({
+    message:
+        '请先设置支付密码',
+  }).then((res) => {
+    router.push("/password/pay")
+  })
+}
 </script>
 
 <template>
@@ -43,7 +59,7 @@ const myOrder = [
         <div class="color-red">邀请码：下单后可获得</div>
       </div>
       <div>
-        <van-button text="切换账号" size="small"/>
+        <van-button url="/account/change" text="切换账号" size="small"/>
       </div>
     </div>
 
@@ -51,9 +67,10 @@ const myOrder = [
       <van-space>
         <van-button url="/settings/earnings" color="white" style="background: none" round plain hairline text="明细"
                     size="small"/>
-        <van-button url="/settings/earnings" color="white" style="background: none" round plain hairline text="转账"
+        <van-button @click="onClickTransfer" color="white" style="background: none" round plain hairline text="转账"
                     size="small"/>
-        <van-button url="/settings/earnings" color="white" style="background: none" round plain hairline text="提现"
+        <van-button @click="onClickWithdraw" color="white" style="background: none" round plain hairline
+                    text="提现"
                     size="small"/>
       </van-space>
     </amount-card>

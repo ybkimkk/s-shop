@@ -13,7 +13,7 @@ const titleStore = useTitleStore()
       left-arrow
       @click-left="onClickLeft"
   />
-  <div class="p-3">
+  <div class="p-3 p-b-15">
     <NuxtPage/>
   </div>
 </template>

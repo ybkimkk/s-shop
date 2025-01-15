@@ -3,7 +3,7 @@ import {useTitleStore} from "~/store/useDetailLayouts";
 import ModuleCard from "~/component/moduleCard.vue";
 
 definePageMeta({
-  layout: 'detail'  // 使用指定的布局
+  layout: 'product-detail'  // 使用指定的布局
 })
 
 const titleStore = useTitleStore()

@@ -1,12 +1,8 @@
 <script setup lang="ts">
-
 // 获取路由对象
 const route = useRoute()
-
-
 // 定义 Tabbar 激活状态
 const active = ref(0)
-
 // 定义一个包含路径的映射
 const paths = ['/', '/settings']
 
