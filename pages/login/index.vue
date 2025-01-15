@@ -66,7 +66,7 @@ const changeFrom = (type: number) => {
       <van-cell-group inset>
         <van-field
             v-model="form.phone"
-            name="手机号"
+            name="phone"
             label="+86"
             placeholder="请输入手机号"
             :rules="[{ required: true, message: '请输入手机号' }]"
@@ -75,7 +75,7 @@ const changeFrom = (type: number) => {
         <van-field
             v-model="form.password"
             type="password"
-            name="密码"
+            name="password"
             label="密码"
             placeholder="请输入密码"
             :rules="[{ required: true, message: '请输入密码' }]"
@@ -86,7 +86,7 @@ const changeFrom = (type: number) => {
       <van-cell-group inset>
         <van-field
             v-model="form.phone"
-            name="手机号"
+            name="phone"
             label="+86"
             placeholder="请输入手机号"
             :rules="[{ required: true, message: '请输入手机号' }]"
@@ -94,7 +94,7 @@ const changeFrom = (type: number) => {
         </van-field>
         <van-field
             v-model="form.code"
-            name="验证码"
+            name="code"
             label="验证码"
             placeholder="请输入验证码"
             :rules="[{ required: true, message: '请输入验证码' }]"

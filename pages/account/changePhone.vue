@@ -55,7 +55,7 @@ const sendCode = (type: number) => {
     <van-cell-group inset>
       <van-field
           v-model="form.phone"
-          name="手机号"
+          name="phone"
           label="+86"
           placeholder="请输入手机号"
           :rules="[{ required: true, message: '请输入手机号' }]"
@@ -63,7 +63,7 @@ const sendCode = (type: number) => {
       </van-field>
       <van-field
           v-model="form.code"
-          name="验证码"
+          name="code"
           label="验证码"
           placeholder="请输入验证码"
           :rules="[{ required: true, message: '请输入验证码' }]"
@@ -79,7 +79,7 @@ const sendCode = (type: number) => {
     <van-cell-group inset>
       <van-field
           v-model="form.phone"
-          name="手机号"
+          name="phone"
           label="+86"
           placeholder="请输入手机号"
           :rules="[{ required: true, message: '请输入手机号' }]"
@@ -89,7 +89,7 @@ const sendCode = (type: number) => {
 
       <van-field
           v-model="form.code"
-          name="验证码"
+          name="code"
           label="验证码"
           placeholder="请输入验证码"
           :rules="[{ required: true, message: '请输入验证码' }]"

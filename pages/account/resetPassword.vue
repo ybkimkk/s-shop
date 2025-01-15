@@ -12,11 +12,13 @@ const titleStore = useTitleStore();
 titleStore.setTitle('重置密码');
 
 interface Form {
-  code: string,
-  password: string,
+  phone: string;
+  code: string;
+  password: string;
 }
 
 const form = ref<Form>({
+  phone: '',
   code: '',
   password: '',
 });
@@ -49,8 +51,8 @@ const sendCode = () => {
   <van-form @submit="onSubmit">
     <van-cell-group inset>
       <van-field
-          v-model="form.code"
-          name="手机号"
+          v-model="form.phone"
+          name="phone"
           label="+86"
           placeholder="请输入手机号"
           :rules="[{ required: true, message: '请输入手机号' }]"
@@ -58,7 +60,7 @@ const sendCode = () => {
       </van-field>
        <van-field
         v-model="form.code"
-        name="验证码"
+        name="code"
         label="验证码"
         placeholder="请输入验证码"
         :rules="[{ required: true, message: '请输入验证码' }]"
@@ -72,7 +74,7 @@ const sendCode = () => {
       <van-field
           v-model="form.password"
           type="password"
-          name="密码"
+          name="password"
           label="密码"
           placeholder="请输入新密码,至少8位"
           :rules="[{ required: true, message: '请输入新密码,至少8位' }]"

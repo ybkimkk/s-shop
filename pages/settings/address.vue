@@ -18,8 +18,25 @@ const onCliCKAddAddress = () => {
 
 <template>
   <div class="container-page">
-    <van-empty image="search" />
+    <module-card v-for="item in 10">
+      <van-row>
+        <van-col span="20">
+          <p class="font-size-4">收件人: 进大帅</p>
+          <p class="m-y-5">
+            地区:北京/222/22
+          </p>
+          <p>
+            <van-text-ellipsis content="地址: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                               expand-text="展开"
+                               collapse-text="收起"/>
+          </p>
+        </van-col>
+        <van-col span="4" class="m-auto text-right">
+          <van-icon size="24" class="color-red" name="more-o" />
+        </van-col>
+      </van-row>
 
+    </module-card>
 
   </div>
 

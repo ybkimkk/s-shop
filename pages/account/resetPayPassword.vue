@@ -10,19 +10,19 @@ const titleStore = useTitleStore();
 titleStore.setTitle('修改支付密码');
 
 
-interface PayPasswordForm {
+interface Form {
   code: string,
   password: string,
 }
 
-const payPasswordForm = ref<PayPasswordForm>({
+const form = ref<Form>({
   code: '',
   password: '',
 });
 const isDisabled = ref(false);
 const loadingText = ref('发送验证码');
 
-const onSubmit = (values: PayPasswordForm) => {
+const onSubmit = (values: Form) => {
 
   console.log('submit', values);
 };
@@ -34,7 +34,7 @@ const sendCode = () => {
   setInterval(() => {
     countdown--;
     loadingText.value = `${countdown}秒后重试`;
-    
+
     if (countdown < 0) {
       isDisabled.value = false; // 启用按钮
       loadingText.value = '发送验证码'; // 重置文本
@@ -47,22 +47,22 @@ const sendCode = () => {
   <van-form @submit="onSubmit">
     <van-cell-group inset>
       <van-field
-          v-model="payPasswordForm.code"
-          name="验证码"
+          v-model="form.code"
+          name="code"
           label="验证码"
           placeholder="验证码"
           :rules="[{ required: true, message: '请输入手机号' }]"
       >
         <template #button>
-          <van-button :disabled="isDisabled"  @click="sendCode"
+          <van-button :disabled="isDisabled" @click="sendCode"
                       size="small" type="primary">{{ loadingText }}
           </van-button>
         </template>
       </van-field>
       <van-field
-          v-model="payPasswordForm.password"
+          v-model="form.password"
           type="password"
-          name="支付密码"
+          name="password"
           label="支付密码"
           placeholder="支付密码"
           :rules="[{ required: true, message: '请输入支付密码' }]"

@@ -2,7 +2,7 @@
 
 
 import {useTitleStore} from "~/store/useDetailLayouts";
-import LoginTitle from "~/component/loginTitle.vue";
+import {showToast} from "vant";
 
 definePageMeta({
   layout: 'detail'  // 使用指定的布局
@@ -16,9 +16,12 @@ interface Form {
   phone: string;
   area: string;
   address: string;
-  
-  
+}
 
+interface Address {
+  text: string;
+  value: string;
+  children: Address[]
 }
 
 const form = ref<Form>({
@@ -29,11 +32,15 @@ const form = ref<Form>({
 });
 const isDisabled = ref(false);
 const loadingText = ref('发送验证码');
-
+const area = ref<Address[]>([]);
+const showPicker = ref(false);
 const onSubmit = (values: Form) => {
-
   console.log('submit', values);
 };
+onMounted(async () => {
+  let areaData = await fetch("/data/area.json");
+  area.value = await areaData.json()
+})
 
 const sendCode = () => {
   isDisabled.value = true;
@@ -49,6 +56,25 @@ const sendCode = () => {
     }
   }, 1000); // 60秒后重新启用按钮
 }
+
+const pickerConfirm = ({selectedValues, selectedOptions, selectedIndexes}: {
+  selectedValues: any,
+  selectedOptions: Address[],
+  selectedIndexes: any
+}) => {
+  form.value.area = selectedOptions.map((item: Address) => {
+    return item.text
+  }).join('/');
+  showPicker.value = false;
+
+}
+const pickerCancel = (selectedValues: any) => {
+  showToast(`当前值: ${selectedValues.join(',')}`);
+}
+const al = () => {
+  console.log(showPicker)
+  showPicker.value = true
+}
 </script>
 
 <template>
@@ -56,7 +82,7 @@ const sendCode = () => {
     <van-cell-group inset>
       <van-field
           v-model="form.name"
-          name="姓名"
+          name="name"
           label="姓名"
           placeholder="请输入姓名"
           :rules="[{ required: true, message: '请输入姓名' }]"
@@ -64,21 +90,24 @@ const sendCode = () => {
       </van-field>
       <van-field
           v-model="form.phone"
-          name="电话"
+          name="phone"
           label="+86"
           placeholder="请输入电话"
           :rules="[{ required: true, message: '请输入电话' }]"
       />
       <van-field
-          v-model="form.phone"
-          name="地区"
+          @click="showPicker = true"
+          v-model="form.area"
+          name="area"
           label="地区"
+          right-icon="arrow"
           placeholder="选择省市区"
-          :rules="[{ required: true, message: '请输入地区' }]"
+          readonly
+          :rules="[{ required: true, message: '选择省市区' }]"
       />
       <van-field
           v-model="form.address"
-          name="地址"
+          name="address"
           label="地址"
           placeholder="请输入地址"
           :rules="[{ required: true, message: '请输入地址' }]"
@@ -90,6 +119,15 @@ const sendCode = () => {
         确认
       </van-button>
     </div>
+    <van-popup v-model:show="showPicker" destroy-on-close round position="bottom">
+      <van-picker
+          title="选择省市区"
+          @confirm="pickerConfirm"
+          @cancel="showPicker = false"
+          :columns="area"/>
+    </van-popup>
+
+
   </van-form>
 </template>
 
