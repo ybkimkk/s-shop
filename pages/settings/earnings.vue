@@ -22,19 +22,19 @@ const active = ref(0);
     </van-space>
   </amount-card>
   <van-tabs class="m-t-3" v-model:active="active">
-    <van-tab title="推荐">an-tab title="全部">
+    <van-tab title="推荐">
       <van-empty image="search" description="暂无订单"/>
     </van-tab>
-    <van-tab title="分红">an-tab title="全部">
+    <van-tab title="分红">
       <van-empty image="search" description="暂无订单"/>
     </van-tab>
-    <van-tab title="提现">an-tab title="全部">
+    <van-tab title="提现">
       <van-empty image="search" description="暂无订单"/>
     </van-tab>
-    <van-tab title="转账">an-tab title="全部">
+    <van-tab title="转账">
       <van-empty image="search" description="暂无订单"/>
     </van-tab>
-    <van-tab title="余额">an-tab title="全部">
+    <van-tab title="余额">
       <van-empty image="search" description="暂无订单"/>
     </van-tab>
   </van-tabs>

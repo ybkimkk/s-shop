@@ -9,10 +9,10 @@ const myApp = [
   {img: 'https://app.yammevli.cn/static/icons/my1.png', text: '我的团队', url: '/'},
   {img: 'https://app.yammevli.cn/static/icons/my2.png', text: '邀请海报', url: '/'},
   {img: 'https://app.yammevli.cn/static/icons/my4.png', text: '公告', url: '/notice'},
-  {img: 'https://app.yammevli.cn/static/icons/my5.png', text: '收货地址', url: '/'},
-  {img: 'https://app.yammevli.cn/static/icons/my6.png', text: '更改手机号', url: '/'},
-  {img: 'https://app.yammevli.cn/static/icons/my7.png', text: '联系客服', url: '/'},
-  {img: 'https://app.yammevli.cn/static/icons/pwd.png', text: '重置支付密码', url: '/password/pay'},
+  {img: 'https://app.yammevli.cn/static/icons/my5.png', text: '收货地址', url: '/settings/address'},
+  {img: 'https://app.yammevli.cn/static/icons/my6.png', text: '更改手机号', url: '/account/changePhone'},
+  {img: 'https://app.yammevli.cn/static/icons/my7.png', text: '联系客服', url: '/contact'},
+  {img: 'https://app.yammevli.cn/static/icons/pwd.png', text: '重置支付密码', url: '/account/resetPayPassword'},
 ]
 
 const myOrder = [
@@ -42,7 +42,7 @@ const alertSetting = () => {
     message:
         '请先设置支付密码',
   }).then((res) => {
-    router.push("/password/pay")
+    router.push("/account/resetPayPassword")
   })
 }
 </script>
@@ -59,7 +59,7 @@ const alertSetting = () => {
         <div class="color-red">邀请码：下单后可获得</div>
       </div>
       <div>
-        <van-button url="/account/change" text="切换账号" size="small"/>
+        <van-button url="/account/changeAccount" text="切换账号" size="small"/>
       </div>
     </div>
 

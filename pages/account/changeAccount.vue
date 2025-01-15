@@ -49,7 +49,7 @@ titleStore.setTitle('切换账号');
   </module-card>
   
   <div class="text-center m-t-5">
-    <nuxt-link to="/login" class="color-red"><van-icon name="plus" />添加新账号</nuxt-link>
+    <nuxt-link to="/login"><p  class="color-red"><van-icon name="plus" />添加新账号</p></nuxt-link>
   </div>
 </template>
 

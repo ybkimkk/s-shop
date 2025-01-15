@@ -2,7 +2,7 @@
 import {useTitleStore} from "~/store/useDetailLayouts";
 
 definePageMeta({
-  layout: 'detail'  // 使用指定的布局
+  layout: 'login'  // 使用指定的布局
 })
 
 const titleStore = useTitleStore();
@@ -51,7 +51,7 @@ const sendCode = () => {
           name="验证码"
           label="验证码"
           placeholder="验证码"
-          :rules="[{ required: true, message: '请填写验证码' }]"
+          :rules="[{ required: true, message: '请输入手机号' }]"
       >
         <template #button>
           <van-button :disabled="isDisabled"  @click="sendCode"
@@ -65,11 +65,11 @@ const sendCode = () => {
           name="支付密码"
           label="支付密码"
           placeholder="支付密码"
-          :rules="[{ required: true, message: '请填写支付密码' }]"
+          :rules="[{ required: true, message: '请输入支付密码' }]"
       />
     </van-cell-group>
     <div style="margin: 16px;">
-      <van-button round block type="primary" native-type="submit">
+      <van-button round block type="danger" native-type="submit">
         提交
       </van-button>
     </div>

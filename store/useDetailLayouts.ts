@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useTitleStore = defineStore('title', {
     state: () => ({
-        title: '111'
+        title: ''
     }),
     actions: {
         setTitle(newTitle: string) {

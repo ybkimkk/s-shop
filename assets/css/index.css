@@ -1,3 +1,15 @@
+:root {
+    --purple: #7014ff;
+    --gray: #090909;
+}
+
+.color-purple {
+    color: var(--purple);
+}
+.color-depp-gray {
+    color: var(--gray);
+}
+
 body {
     background: #F8F9FA;
 }
@@ -19,19 +31,23 @@ a:hover {
     color: inherit; /* 或者可以设置特定的颜色 */
     text-decoration: none; /* 如果需要 hover 时显示下划线，可以启用 */
 }
+
 .container-page {
     padding: 0 10px;
 }
+
 .product-card {
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); /* 阴影效果 */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
 }
-h1,h2,h3,h4,h5,h6,p {
+
+h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     font-size: 14px;
 }
-.b-r-10{
+
+.b-r-10 {
     border-radius: 10px;
 }
