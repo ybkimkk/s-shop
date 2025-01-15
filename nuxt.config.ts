@@ -1,7 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: true,  // 确保 SSR 开启
-
+  pages:true,
+  typescript: {
+    strict: true // 确保严格模式开启
+  },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   css:[

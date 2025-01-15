@@ -35,49 +35,54 @@ const goTo = () => {
     </van-swipe-item>
 
   </van-swipe>
-  <van-row class="m-y-3">
-    <van-col span="12" class="p-1" @click="showHome1">
-      <van-image :src="homeImage1"/>
-    </van-col>
-    <van-col span="12" class="p-1" @click="goTo">
-      <van-image :src="homeImage2"/>
-    </van-col>
-  </van-row>
+  
+  <div class="container-page">
 
-  <van-row>
-    <van-col span="12" class="p-1">
-      <div class="product-card">
-        <nuxt-link to="/product">
-          <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
-          <div class="p-2">
-            <h5 class="m-b-1">
-              桦褐孔菌复合固体饮料
-            </h5>
-            <div class="flex justify-between items-center">
-              <p><span style="color: #FF4037">¥</span>600</p>
-              <van-button round type="danger" size="small" text="购买"/>
+    <van-row class="m-y-3">
+      <van-col span="12" class="p-1" @click="showHome1">
+        <van-image :src="homeImage1"/>
+      </van-col>
+      <van-col span="12" class="p-1" @click="goTo">
+        <van-image :src="homeImage2"/>
+      </van-col>
+    </van-row>
+
+    <van-row>
+      <van-col span="12" class="p-1">
+        <div class="product-card">
+          <nuxt-link to="/product">
+            <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
+            <div class="p-2">
+              <h5 class="m-b-1">
+                桦褐孔菌复合固体饮料
+              </h5>
+              <div class="flex justify-between items-center">
+                <p><span style="color: #FF4037">¥</span>600</p>
+                <van-button round type="danger" size="small" text="购买"/>
+              </div>
             </div>
-          </div>
-        </nuxt-link>
-      </div>
-    </van-col>
-    <van-col span="12" class="p-1">
-      <div class="product-card">
-        <nuxt-link to="/product">
-          <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
-          <div class="p-2">
-            <h5 class="m-b-1">
-              桦褐孔菌复合固体饮料
-            </h5>
-            <div class="flex justify-between items-center">
-              <p><span style="color: #FF4037">¥</span>600</p>
-              <van-button round type="danger" size="small" text="购买"/>
+          </nuxt-link>
+        </div>
+      </van-col>
+      <van-col span="12" class="p-1">
+        <div class="product-card">
+          <nuxt-link to="/product">
+            <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
+            <div class="p-2">
+              <h5 class="m-b-1">
+                桦褐孔菌复合固体饮料
+              </h5>
+              <div class="flex justify-between items-center">
+                <p><span style="color: #FF4037">¥</span>600</p>
+                <van-button round type="danger" size="small" text="购买"/>
+              </div>
             </div>
-          </div>
-        </nuxt-link>
-      </div>
-    </van-col>
-  </van-row>
+          </nuxt-link>
+        </div>
+      </van-col>
+    </van-row>
+  </div>
+
 
 </template>
 

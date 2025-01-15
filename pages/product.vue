@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useTitleStore} from "~/store/useDetailLayouts";
+import ModuleCard from "~/component/moduleCard.vue";
 
 definePageMeta({
   layout: 'detail'  // 使用指定的布局
@@ -25,8 +26,24 @@ const onCliCKBuy = () => {
       <h1 class="color-red font-size-10 m-y-2">¥600</h1>
       <h3>桦褐孔菌复合固体饮料</h3>
     </div>
+    <module-card title="商品参数">
+      <div class="flex justify-between">
+        <p class="color-neutral font-size-4">规格</p>
+        <p class="font-size-4">1盒*16包</p>
+      </div>
+      <van-divider />
+      <div class="flex justify-between">
+        <p class="color-neutral font-size-5">运费</p>
+        <p class="font-size-4">免运费</p>
+      </div>
+    </module-card>
     
-    <div></div>
+    <module-card title="商品详情">
+      <van-image v-for="index in 4" src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
+    </module-card>
+    <div>
+
+    </div>
 
   </div>
 

@@ -29,8 +29,8 @@ onMounted(() => {
 </script>
 
 <template>
-<div class="container-page">
-  <slot/>
+<div class="p-b-15">
+  <NuxtPage />
   <footer>
     <van-tabbar v-model="active">
       <van-tabbar-item icon="home-o" url="/">首页</van-tabbar-item>

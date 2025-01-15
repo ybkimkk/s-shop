@@ -20,7 +20,7 @@ a:hover {
     text-decoration: none; /* 如果需要 hover 时显示下划线，可以启用 */
 }
 .container-page {
-    padding-bottom:100px;
+    padding: 0 10px;
 }
 .product-card {
     border-radius: 15px;
