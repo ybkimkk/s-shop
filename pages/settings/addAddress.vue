@@ -39,7 +39,10 @@ const onSubmit = (values: Form) => {
 onMounted(async () => {
   let areaData = await fetch("/data/area.json");
   area.value = await areaData.json();
+  // ?id=1
   console.log(route.query.id || null);
+  // /xxx/1
+  console.log(route.params.id || null);
 
 })
 

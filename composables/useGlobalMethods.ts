@@ -23,7 +23,6 @@ export const useGlobalMethods = () => {
                 captcha.showCaptcha();
             });
         });
-   
     }
 
     return {captcha};

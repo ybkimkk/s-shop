@@ -5,6 +5,7 @@ import {showConfirmDialog} from "vant";
 
 const router = useRouter()
 const myApp = [
+  //   todo 缺失页面
   {img: 'https://app.yammevli.cn/static/icons/room.png', text: '我的队伍', url: '/'},
   {img: 'https://app.yammevli.cn/static/icons/my1.png', text: '我的团队', url: '/'},
   {img: 'https://app.yammevli.cn/static/icons/my2.png', text: '邀请海报', url: '/'},

@@ -13,7 +13,7 @@ titleStore.setTitle('我的订单')
 <template>
   <van-tabs v-model:active="active">
     <van-tab title="全部">
-      <van-empty image="search" description="暂无订单"/>
+        <van-empty image="search" description="暂无订单"/>
     </van-tab>
     <van-tab title="待发货">
       <van-empty image="search" description="暂无订单"/>
