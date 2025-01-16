@@ -2,7 +2,6 @@
 
 
 import {useTitleStore} from "~/store/useDetailLayouts";
-import {showToast} from "vant";
 
 definePageMeta({
   layout: 'detail'  // 使用指定的布局
@@ -30,32 +29,20 @@ const form = ref<Form>({
   area: '',
   address: '',
 });
-const isDisabled = ref(false);
-const loadingText = ref('发送验证码');
+
 const area = ref<Address[]>([]);
 const showPicker = ref(false);
+const route = useRoute();
 const onSubmit = (values: Form) => {
   console.log('submit', values);
 };
 onMounted(async () => {
   let areaData = await fetch("/data/area.json");
-  area.value = await areaData.json()
+  area.value = await areaData.json();
+  console.log(route.query.id || null);
+
 })
 
-const sendCode = () => {
-  isDisabled.value = true;
-  let countdown = 60;
-  loadingText.value = `${countdown}秒后重试`;
-  setInterval(() => {
-    countdown--;
-    loadingText.value = `${countdown}秒后重试`;
-
-    if (countdown < 0) {
-      isDisabled.value = false; // 启用按钮
-      loadingText.value = '发送验证码'; // 重置文本
-    }
-  }, 1000); // 60秒后重新启用按钮
-}
 
 const pickerConfirm = ({selectedValues, selectedOptions, selectedIndexes}: {
   selectedValues: any,
@@ -67,13 +54,6 @@ const pickerConfirm = ({selectedValues, selectedOptions, selectedIndexes}: {
   }).join('/');
   showPicker.value = false;
 
-}
-const pickerCancel = (selectedValues: any) => {
-  showToast(`当前值: ${selectedValues.join(',')}`);
-}
-const al = () => {
-  console.log(showPicker)
-  showPicker.value = true
 }
 </script>
 

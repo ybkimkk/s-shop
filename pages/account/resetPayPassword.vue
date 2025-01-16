@@ -27,7 +27,11 @@ const onSubmit = (values: Form) => {
   console.log('submit', values);
 };
 
-const sendCode = () => {
+const sendCode = async () => {
+  let res = await useGlobalMethods().captcha();
+  if (!res) {
+    return;
+  }
   isDisabled.value = true;
   let countdown = 60;
   loadingText.value = `${countdown}秒后重试`;
@@ -74,6 +78,11 @@ const sendCode = () => {
       </van-button>
     </div>
   </van-form>
+  <van-overlay>
+    <div class="wrapper" @click.stop>
+      <div class="block" id="captcha"></div>
+    </div>
+  </van-overlay>
 </template>
 
 <style scoped>

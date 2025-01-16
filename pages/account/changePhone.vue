@@ -29,8 +29,11 @@ const onSubmit = (values: Form) => {
 
   console.log('submit', values);
 };
-
-const sendCode = (type: number) => {
+const sendCode = async (type: number) => {
+  let res = await useGlobalMethods().captcha();
+  if (!res) {
+    return;
+  }
   let isDisabled = type === 1 ? resourceIsDisabled : targetIsDisabled;
   let loadingText = type === 1 ? resourceLoadingText : targetLoadingText;
   isDisabled.value = true;
@@ -44,7 +47,9 @@ const sendCode = (type: number) => {
       isDisabled.value = false; // 启用按钮
       loadingText.value = '发送验证码'; // 重置文本
     }
-  }, 1000); // 60秒后重新启用按钮
+  }, 1000);
+
+
 }
 </script>
 
@@ -107,11 +112,27 @@ const sendCode = (type: number) => {
       </van-button>
     </div>
   </van-form>
+  <van-overlay>
+    <div class="wrapper" @click.stop>
+      <div class="block" id="captcha"></div>
+    </div>
+  </van-overlay>
 
 </template>
 
 <style scoped>
 .m-16 {
   margin: 16px
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.block {
+  background-color: #fff;
 }
 </style>

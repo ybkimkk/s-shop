@@ -9,10 +9,10 @@ definePageMeta({
 const titleStore = useTitleStore()
 // 设置页面标题
 titleStore.setTitle('收货地址');
+const router = useRouter();
 
-
-const onCliCKAddAddress = () => {
-
+const jumpEditAddress = (id: number) => {
+  router.push('/settings/addAddress?id=' + id);
 }
 </script>
 
@@ -32,19 +32,19 @@ const onCliCKAddAddress = () => {
           </p>
         </van-col>
         <van-col span="4" class="m-auto text-right">
-          <van-icon size="24" class="color-red" name="more-o" />
+          <van-icon @click="jumpEditAddress(1)" size="24" class="color-red" name="more-o"/>
         </van-col>
       </van-row>
-
     </module-card>
 
   </div>
 
 
   <van-action-bar>
-    <van-action-bar-button url="/settings/addAddress" type="danger" text="添加新地址" @click="onCliCKAddAddress"/>
+    <van-action-bar-button url="/settings/addAddress" type="danger" text="添加新地址"/>
   </van-action-bar>
 </template>
 
 <style scoped>
+
 </style>

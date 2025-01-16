@@ -40,7 +40,11 @@ const onSubmit = (values: Form) => {
   router.push('/');
 };
 
-const sendCode = () => {
+const sendCode = async () => {
+  let res = await useGlobalMethods().captcha();
+  if (!res) {
+    return;
+  }
   isDisabled.value = true;
   let countdown = 60;
   loadingText.value = `${countdown}秒后重试`;
@@ -121,6 +125,11 @@ const sendCode = () => {
     <nuxt-link class="block m-y-5" to="/agreement/1"><p class="color-red">《用户服务协议及权益保障告知书》</p></nuxt-link>
     <nuxt-link to="/agreement/2"><p class="color-red">《隐私政策》</p></nuxt-link>
   </div>
+  <van-overlay>
+    <div class="wrapper" @click.stop>
+      <div class="block" id="captcha"></div>
+    </div>
+  </van-overlay>
 </template>
 
 <style scoped>

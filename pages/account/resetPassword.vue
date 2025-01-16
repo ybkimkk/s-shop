@@ -30,7 +30,11 @@ const onSubmit = (values: Form) => {
   console.log('submit', values);
 };
 
-const sendCode = () => {
+const sendCode = async () => {
+  let res = await useGlobalMethods().captcha();
+  if (!res) {
+    return;
+  }
   isDisabled.value = true;
   let countdown = 60;
   loadingText.value = `${countdown}秒后重试`;
@@ -58,19 +62,21 @@ const sendCode = () => {
           :rules="[{ required: true, message: '请输入手机号' }]"
       >
       </van-field>
-       <van-field
-        v-model="form.code"
-        name="code"
-        label="验证码"
-        placeholder="请输入验证码"
-        :rules="[{ required: true, message: '请输入验证码' }]"
-    >
-`      <template #button>
-        <van-button :disabled="isDisabled" @click="sendCode"
-                    size="small" type="primary">{{ loadingText }}
-        </van-button>
-      </template>`
-    </van-field>
+      <van-field
+          v-model="form.code"
+          name="code"
+          label="验证码"
+          placeholder="请输入验证码"
+          :rules="[{ required: true, message: '请输入验证码' }]"
+      >
+        `
+        <template #button>
+          <van-button :disabled="isDisabled" @click="sendCode"
+                      size="small" type="primary">{{ loadingText }}
+          </van-button>
+        </template>
+        `
+      </van-field>
       <van-field
           v-model="form.password"
           type="password"
@@ -80,13 +86,18 @@ const sendCode = () => {
           :rules="[{ required: true, message: '请输入新密码,至少8位' }]"
       />
     </van-cell-group>
-    
+
     <div class="m-16 m-t-10">
       <van-button round block type="danger" native-type="submit">
         确认
       </van-button>
     </div>
   </van-form>
+  <van-overlay>
+    <div class="wrapper" @click.stop>
+      <div class="block" id="captcha"></div>
+    </div>
+  </van-overlay>
 </template>
 
 <style scoped>

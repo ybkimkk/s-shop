@@ -38,7 +38,11 @@ const onSubmit = (values: Form) => {
   router.push('/');
 };
 
-const sendCode = () => {
+const sendCode =async () => {
+  let res = await useGlobalMethods().captcha();
+  if (!res) {
+    return;
+  }
   isDisabled.value = true;
   let countdown = 60;
   loadingText.value = `${countdown}秒后重试`;
@@ -110,7 +114,7 @@ const changeFrom = (type: number) => {
     <div class="flex justify-between m-16">
       <p @click="changeFrom(form.type===2?1:2)" class="color-purple">
         <van-icon name="exchange"/>
-        {{ form.type === 1 ? '切换至短信登录' : '切换至密码登录'}}
+        {{ form.type === 1 ? '切换至短信登录' : '切换至密码登录' }}
       </p>
       <nuxt-link to="/account/resetPassword"><p class="color-depp-gray">忘记密码?</p></nuxt-link>
     </div>
