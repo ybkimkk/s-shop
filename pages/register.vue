@@ -16,28 +16,32 @@ titleStore.setTitle('注册');
 interface Form {
   name: string;
   phone: string;
+  email: string;
   password: string;
   code: string;
   invitationCode: string;
 }
 
 const form = ref<Form>({
-  name: '',
-  phone: '',
-  password: '',
-  code: '',
-  invitationCode: '',
+  name: '123',
+  phone: '123',
+  email: '123',
+  password: '123',
+  code: '1234',
+  invitationCode: '1234',
 });
 const isDisabled = ref(false);
 const loadingText = ref('发送验证码');
 const checked = ref(false);
-
-const onSubmit = (values: Form) => {
+const onSubmit = async (values: Form) => {
   if (!checked.value) {
     showToast('请阅读并同意协议');
     return;
   }
-  router.push('/');
+
+  let res = await useNuxtApp().$axios.post('/user/register', values);
+  console.log(res)
+  // router.push('/');
 };
 
 const sendCode = async () => {
@@ -78,6 +82,13 @@ const sendCode = async () => {
           label="+86"
           placeholder="请输入手机号"
           :rules="[{ required: true, message: '请输入手机号' }]"
+      />
+      <van-field
+          v-model="form.email"
+          name="email"
+          label="邮箱"
+          placeholder="请输入邮箱"
+          :rules="[{ required: true, message: '请输入邮箱' }]"
       />
       <van-field
           v-model="form.code"
