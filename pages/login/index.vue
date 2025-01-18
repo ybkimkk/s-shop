@@ -1,6 +1,4 @@
 <script setup lang="ts">
-
-
 import {useTitleStore} from "~/store/useDetailLayouts";
 import LoginTitle from "~/component/loginTitle.vue";
 import {showToast} from "vant";
@@ -20,6 +18,14 @@ interface Form {
   type: number
 }
 
+interface api_user_login {
+  code: number,
+  msg: string,
+  data: string
+}
+
+//电话号码正则
+const phoneRegex = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
 const form = ref<Form>({
   phone: '',
   password: '',
@@ -30,19 +36,51 @@ const isDisabled = ref(false);
 const loadingText = ref('发送验证码');
 const checked = ref(false);
 
-const onSubmit = (values: Form) => {
+const onSubmit = async (values: Form) => {
   if (!checked.value) {
     showToast('请阅读并同意协议');
     return;
   }
-  router.push('/');
+  let nPhone = values.phone
+  let sPassword = values.password
+
+  const fnCheckLoginData = function (phone:string, password:string) : boolean{
+
+
+    return true
+  }
+
+  if (fnCheckLoginData(nPhone,sPassword)) {
+
+  }
+  
+  let res = await useFetch<api_user_login>('http://localhost:3001/api/user/login',{
+    method: 'POST',
+    body: {
+      phone: nPhone,
+      password: sPassword
+    }
+  })
+
+  let reqdata = res.data.value
+
+  if (reqdata?.code == 0){
+    showToast('登录成功')
+    router.push('/')
+  } else {
+    //登陆失败
+    let errormsg = reqdata?.msg || '登陆失败'
+    showToast(errormsg)
+  }
 };
 
 const sendCode =async () => {
-  let res = await useGlobalMethods().captcha();
+  let res = await useGlobalMethods().captcha();  
+
   if (!res) {
     return;
   }
+
   isDisabled.value = true;
   let countdown = 60;
   loadingText.value = `${countdown}秒后重试`;
@@ -55,12 +93,16 @@ const sendCode =async () => {
       loadingText.value = '发送验证码'; // 重置文本
     }
   }, 1000); // 60秒后重新启用按钮
+
+  //发送验证码
+  
 }
 
 const changeFrom = (type: number) => {
   console.log(type);
   form.value.type = type;
 }
+
 </script>
 
 <template>
@@ -73,7 +115,10 @@ const changeFrom = (type: number) => {
             name="phone"
             label="+86"
             placeholder="请输入手机号"
-            :rules="[{ required: true, message: '请输入手机号' }]"
+            :rules="[
+              { required: true, message: '请输入手机号' },
+              { pattern:phoneRegex, message: '请输入正确手机号'}
+            ]"
         >
         </van-field>
         <van-field
@@ -82,7 +127,9 @@ const changeFrom = (type: number) => {
             name="password"
             label="密码"
             placeholder="请输入密码"
-            :rules="[{ required: true, message: '请输入密码' }]"
+            :rules="[
+              { required: true, message: '请输入密码' }
+            ]"
         />
       </van-cell-group>
     </div>
@@ -93,7 +140,10 @@ const changeFrom = (type: number) => {
             name="phone"
             label="+86"
             placeholder="请输入手机号"
-            :rules="[{ required: true, message: '请输入手机号' }]"
+            :rules="[
+              { required: true, message: '请输入手机号' },
+              { pattern:phoneRegex, message: '请输入正确手机号'}
+            ]"
         >
         </van-field>
         <van-field
@@ -104,8 +154,12 @@ const changeFrom = (type: number) => {
             :rules="[{ required: true, message: '请输入验证码' }]"
         >
           <template #button>
-            <van-button :disabled="isDisabled" @click="sendCode"
-                        size="small" type="primary">{{ loadingText }}
+            <van-button 
+              :disabled="isDisabled" 
+              @click="sendCode"
+              size="small" 
+              type="primary">
+              {{ loadingText }}
             </van-button>
           </template>
         </van-field>

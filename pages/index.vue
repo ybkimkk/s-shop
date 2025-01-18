@@ -11,6 +11,11 @@ const showHome1 = () => {
 const goTo = () => {
   router.push('/video');
 }
+
+const aProducts = await useFetch('/http://localhost:3001api/product/list',{
+  method: 'GET',
+})
+
 </script>
 
 <template>
@@ -39,9 +44,11 @@ const goTo = () => {
   <div class="container-page">
 
     <van-row class="m-y-3">
+      <!--邀请朋友 -->
       <van-col span="12" class="p-1" @click="showHome1">
         <van-image :src="homeImage1"/>
       </van-col>
+      <!-- 玩法介绍 -->
       <van-col span="12" class="p-1" @click="goTo">
         <van-image :src="homeImage2"/>
       </van-col>
