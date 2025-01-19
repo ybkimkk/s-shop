@@ -12,7 +12,7 @@ const router = useRouter();
 titleStore.setTitle('登录');
 
 interface Form {
-  phone: string,
+  email: string,
   password: string,
   code: string,
   type: number
@@ -24,10 +24,11 @@ interface api_user_login {
   data: string
 }
 
+//todo 换成邮箱 此正则可以在注册界面用
 //电话号码正则
 const phoneRegex = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
 const form = ref<Form>({
-  phone: '',
+  email: '',
   password: '',
   code: '',
   type: 1,
@@ -41,7 +42,7 @@ const onSubmit = async (values: Form) => {
     showToast('请阅读并同意协议');
     return;
   }
-  let nPhone = values.phone
+  let nEmail = values.email
   let sPassword = values.password
 
   const fnCheckLoginData = function (phone:string, password:string) : boolean{
@@ -50,14 +51,14 @@ const onSubmit = async (values: Form) => {
     return true
   }
 
-  if (fnCheckLoginData(nPhone,sPassword)) {
+  if (fnCheckLoginData(nEmail,sPassword)) {
 
   }
   
   let res = await useFetch<api_user_login>('http://localhost:3001/api/user/login',{
     method: 'POST',
     body: {
-      phone: nPhone,
+      email: nEmail,
       password: sPassword
     }
   })
@@ -75,11 +76,12 @@ const onSubmit = async (values: Form) => {
 };
 
 const sendCode =async () => {
-  let res = await useGlobalMethods().captcha();  
+  //todo 这个可考虑不用
+  // let res = await useGlobalMethods().captcha();  
 
-  if (!res) {
-    return;
-  }
+  // if (!res) {
+  //   return;
+  // }
 
   isDisabled.value = true;
   let countdown = 60;
@@ -111,13 +113,13 @@ const changeFrom = (type: number) => {
     <div v-if="form.type===1">
       <van-cell-group inset>
         <van-field
-            v-model="form.phone"
-            name="phone"
-            label="+86"
-            placeholder="请输入手机号"
+            v-model="form.email"
+            name="email"
+            label="邮箱"
+            placeholder="请输入邮箱"
             :rules="[
-              { required: true, message: '请输入手机号' },
-              { pattern:phoneRegex, message: '请输入正确手机号'}
+              { required: true, message: '请输入邮箱' },
+              { pattern:phoneRegex, message: '请输入正确邮箱'}
             ]"
         >
         </van-field>
@@ -136,13 +138,13 @@ const changeFrom = (type: number) => {
     <div v-if="form.type===2">
       <van-cell-group inset>
         <van-field
-            v-model="form.phone"
-            name="phone"
-            label="+86"
-            placeholder="请输入手机号"
+            v-model="form.email"
+            name="email"
+            label="邮箱"
+            placeholder="请输入邮箱"
             :rules="[
-              { required: true, message: '请输入手机号' },
-              { pattern:phoneRegex, message: '请输入正确手机号'}
+              { required: true, message: '请输入邮箱' },
+              { pattern:phoneRegex, message: '请输入正确邮箱'}
             ]"
         >
         </van-field>
@@ -168,7 +170,7 @@ const changeFrom = (type: number) => {
     <div class="flex justify-between m-16">
       <p @click="changeFrom(form.type===2?1:2)" class="color-purple">
         <van-icon name="exchange"/>
-        {{ form.type === 1 ? '切换至短信登录' : '切换至密码登录' }}
+        {{ form.type === 1 ? '切换至邮箱登录' : '切换至密码登录' }}
       </p>
       <nuxt-link to="/account/resetPassword"><p class="color-depp-gray">忘记密码?</p></nuxt-link>
     </div>
