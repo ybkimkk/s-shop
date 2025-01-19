@@ -19,11 +19,13 @@ const aProducts = ref<Product[]>()
 onMounted(async ()=>{
 
   //商品列表
-  let reqProductList = <ProductListAPI>await useNuxtApp().$axios.get('/product/list')
-  if (reqProductList.data.code === 0) aProducts.value = reqProductList.data.data
-
+  try {
+    let reqProductList = <ProductListAPI>await useNuxtApp().$axios.get('/product/list')
+      if (reqProductList.data.code === 0) aProducts.value = reqProductList.data.data
+  } catch (error) {
+    router.push('/')
+  }
   
-
 })
 
 </script>
@@ -68,7 +70,7 @@ onMounted(async ()=>{
       <template v-for="item in aProducts">
         <van-col span="12" class="p-1">
           <div class="product-card">
-            <nuxt-link to="/product">
+            <nuxt-link :to="`/product/${item.id}`">
               <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
               <div class="p-2">
                 <h5 class="m-b-1">

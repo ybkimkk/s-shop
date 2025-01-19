@@ -13,3 +13,4 @@ export interface Product {
 }
 
 export type ProductListAPI = APIBase<Product[]>
+export type ProductAPI = APIBase<Product>

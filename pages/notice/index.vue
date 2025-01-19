@@ -7,6 +7,7 @@ definePageMeta({
   layout: 'detail'  // 使用指定的布局
 })
 const titleStore = useTitleStore();
+const router = useRouter()
 // 设置页面标题
 titleStore.setTitle('公告');
 
@@ -15,8 +16,12 @@ const aNotices = ref<Notice[]>()
 onMounted(async () => {
   
   //公告列表
-  let reqNoticeList = <NoticeListAPI> await useNuxtApp().$axios.get('/notice/list')
-  if (reqNoticeList.data.code === 0) aNotices.value = reqNoticeList.data.data
+  try {
+    let reqNoticeList = <NoticeListAPI> await useNuxtApp().$axios.get('/notice/list')
+    if (reqNoticeList.data.code === 0) aNotices.value = reqNoticeList.data.data
+  } catch (error) {
+    router.push('/')
+  }
 
 })
 
