@@ -1,5 +1,7 @@
-export interface APIBase {
-    code: number,
-    msg: string,
-    data: any
+export interface APIBase<T> {
+    data: {
+        code: number,
+        msg: string,
+        data: T
+    }
 }

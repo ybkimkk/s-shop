@@ -9,7 +9,7 @@ export default defineNuxtPlugin(nuxtApp => {
     const authStore = useAuthStore()
 
     const axiosInstance = axios.create({
-        baseURL: 'http://localhost:80/api',
+        baseURL: 'http://192.168.192.239:80/api',
     })
 
     // 请求拦截器

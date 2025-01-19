@@ -3,6 +3,7 @@ import homeImage1 from '@/assets/img/home1.png';
 import homeImage2 from '@/assets/img/home2.png';
 import banner from '@/assets/img/banner.png';
 import {showDialog} from "vant";
+import type { ProductListAPI,Product } from '~/types/product';
 
 const router = useRouter()
 const showHome1 = () => {
@@ -12,8 +13,17 @@ const goTo = () => {
   router.push('/video');
 }
 
-const aProducts = await useFetch('/http://localhost:3001api/product/list',{
-  method: 'GET',
+const aProducts = ref<Product[]>()
+
+
+onMounted(async ()=>{
+
+  //商品列表
+  let reqProductList = <ProductListAPI>await useNuxtApp().$axios.get('/product/list')
+  if (reqProductList.data.code === 0) aProducts.value = reqProductList.data.data
+
+  
+
 })
 
 </script>
@@ -42,7 +52,6 @@ const aProducts = await useFetch('/http://localhost:3001api/product/list',{
   </van-swipe>
   
   <div class="container-page">
-
     <van-row class="m-y-3">
       <!--邀请朋友 -->
       <van-col span="12" class="p-1" @click="showHome1">
@@ -54,42 +63,29 @@ const aProducts = await useFetch('/http://localhost:3001api/product/list',{
       </van-col>
     </van-row>
 
+    <!-- 商品列表 -->
     <van-row>
-      <van-col span="12" class="p-1">
-        <div class="product-card">
-          <nuxt-link to="/product">
-            <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
-            <div class="p-2">
-              <h5 class="m-b-1">
-                桦褐孔菌复合固体饮料
-              </h5>
-              <div class="flex justify-between items-center">
-                <p><span style="color: #FF4037">¥</span>600</p>
-                <van-button round type="danger" size="small" text="购买"/>
+      <template v-for="item in aProducts">
+        <van-col span="12" class="p-1">
+          <div class="product-card">
+            <nuxt-link to="/product">
+              <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
+              <div class="p-2">
+                <h5 class="m-b-1">
+                  {{ item.name }}
+                </h5>
+                <div class="flex justify-between items-center">
+                  <p><span style="color: #FF4037">¥ </span>{{ item.currentPrice }}</p>
+                  <van-button round type="danger" size="small" text="购买"/>
+                </div>
               </div>
-            </div>
-          </nuxt-link>
-        </div>
-      </van-col>
-      <van-col span="12" class="p-1">
-        <div class="product-card">
-          <nuxt-link to="/product">
-            <van-image src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"/>
-            <div class="p-2">
-              <h5 class="m-b-1">
-                桦褐孔菌复合固体饮料
-              </h5>
-              <div class="flex justify-between items-center">
-                <p><span style="color: #FF4037">¥</span>600</p>
-                <van-button round type="danger" size="small" text="购买"/>
-              </div>
-            </div>
-          </nuxt-link>
-        </div>
-      </van-col>
+            </nuxt-link>
+          </div>
+        </van-col>
+      </template>
     </van-row>
-  </div>
 
+  </div>
 
 </template>
 

@@ -1,4 +1,4 @@
-import ABIBase from './api'
+import ABIBase, { type APIBase } from './api'
 
 export interface Product {
     id: number,
@@ -12,6 +12,4 @@ export interface Product {
     sort: number
 }
 
-export interface ProductAPI extends ABIBase {
-    data:Product[]
-}
+export type ProductListAPI = APIBase<Product[]>
