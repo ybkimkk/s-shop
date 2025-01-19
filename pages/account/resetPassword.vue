@@ -12,13 +12,13 @@ const titleStore = useTitleStore();
 titleStore.setTitle('重置密码');
 
 interface Form {
-  phone: string;
+  email: string;
   code: string;
   password: string;
 }
 
 const form = ref<Form>({
-  phone: '',
+  email: '',
   code: '',
   password: '',
 });
@@ -55,11 +55,11 @@ const sendCode = async () => {
   <van-form @submit="onSubmit">
     <van-cell-group inset>
       <van-field
-          v-model="form.phone"
-          name="phone"
-          label="+86"
-          placeholder="请输入手机号"
-          :rules="[{ required: true, message: '请输入手机号' }]"
+          v-model="form.email"
+          name="email"
+          label="邮箱"
+          placeholder="请输入邮箱"
+          :rules="[{ required: true, message: '请输入邮箱' }]"
       >
       </van-field>
       <van-field
