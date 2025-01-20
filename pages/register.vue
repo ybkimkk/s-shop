@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import {useTitleStore} from "~/store/useDetailLayouts";
 import LoginTitle from "~/component/loginTitle.vue";
-import {showToast} from "vant";
+import {showDialog, showToast} from "vant";
+
+import type { Register, RegisterAPI } from "~/types/user";
 
 definePageMeta({
   layout: 'login'  // 使用指定的布局
@@ -11,16 +13,7 @@ const router = useRouter();
 // 设置页面标题
 titleStore.setTitle('注册');
 
-interface Form {
-  name: string;
-  phone: string;
-  email: string;
-  password: string;
-  code: string;
-  invitationCode: string;
-}
-
-const form = ref<Form>({
+const oRegister = ref<Register>({
   name: '123',
   phone: '123',
   email: '123',
@@ -31,15 +24,28 @@ const form = ref<Form>({
 const isDisabled = ref(false);
 const loadingText = ref('发送验证码');
 const checked = ref(false);
-const onSubmit = async (values: Form) => {
+
+const onSubmit = async (values: Register) => {
   if (!checked.value) {
     showToast('请阅读并同意协议');
     return;
   }
 
-  let res = await useNuxtApp().$axios.post('/user/register', values);
-  console.log(res)
-  // router.push('/');
+  let reqRegister
+  try {
+    reqRegister = <RegisterAPI> await useNuxtApp().$axios.post('/user/register', values);
+  } catch (error) {
+    console.log(error)
+    return
+  }
+
+  if (reqRegister?.data.code === 201) {
+    showDialog({ message: '用户已注册' })
+    return
+  }
+    
+  showToast('注册成功')
+  router.push('/login');
 };
 
 const sendCode = async () => {
@@ -59,6 +65,8 @@ const sendCode = async () => {
       loadingText.value = '发送验证码'; // 重置文本
     }
   }, 1000); // 60秒后重新启用按钮
+
+  await useNuxtApp().$axios.post('/email/send',{email:oRegister.value.email})
 }
 
 </script>
@@ -68,33 +76,33 @@ const sendCode = async () => {
   <van-form @submit="onSubmit">
     <van-cell-group inset>
       <van-field
-          v-model="form.name"
+          v-model="oRegister.name"
           name="name"
           label="昵称"
           placeholder="请输入昵称"
           :rules="[{ required: true, message: '请输入昵称' }]"
       />
       <van-field
-          v-model="form.phone"
+          v-model="oRegister.phone"
           name="phone"
           label="+86"
           placeholder="请输入手机号"
-          :rules="[{ required: true, message: '请输入手机号' }]"
       />
+      <!-- :rules="[{ required: true, message: '请输入手机号' }]" -->
       <van-field
-          v-model="form.email"
+          v-model="oRegister.email"
           name="email"
           label="邮箱"
           placeholder="请输入邮箱"
           :rules="[{ required: true, message: '请输入邮箱' }]"
       />
       <van-field
-          v-model="form.code"
+          v-model="oRegister.code"
           name="code"
-          label="验证码"
-          placeholder="请输入验证码"
-          :rules="[{ required: true, message: '请输入验证码' }]"
+          label="邮箱验证码"
+          placeholder="请输入邮箱验证码"
       >
+      <!-- :rules="[{ required: true, message: '请输入验证码' }]" -->
         <template #button>
           <van-button :disabled="isDisabled" @click="sendCode"
                       size="small" type="primary">{{ loadingText }}
@@ -102,7 +110,7 @@ const sendCode = async () => {
         </template>
       </van-field>
       <van-field
-          v-model="form.password"
+          v-model="oRegister.password"
           type="password"
           name="password"
           label="密码"
@@ -110,7 +118,7 @@ const sendCode = async () => {
           :rules="[{ required: true, message: '请输入密码' }]"
       />
       <van-field
-          v-model="form.invitationCode"
+          v-model="oRegister.invitationCode"
           name="invitationCode"
           label="邀请码"
           placeholder="请输入邀请码"

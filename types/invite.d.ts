@@ -5,6 +5,9 @@ export interface Invite {
     InviteCode: string,
 }
 
+export type InviteListAPI = APIBase<Invite[]>
+export type InviteAPI = APIBase<Invite>
+
 export interface CheckInvited {
     id: number,
     phone: string,
@@ -14,6 +17,4 @@ export interface CheckInvited {
     email: string
 }
 
-export type InviteListAPI = APIBase<Invite[]>
-export type InviteAPI = APIBase<Invite>
 export type CheckInvitedAPI = APIBase<CheckInvited>
