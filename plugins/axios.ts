@@ -2,14 +2,14 @@
 import axios from 'axios'
 import {defineNuxtPlugin} from '#app'
 import {useAuthStore} from '@/store/auth'
-import {showDialog, showToast} from "vant";
+import {showDialog} from "vant";
 
 export default defineNuxtPlugin(nuxtApp => {
     //token 存储地方
     const authStore = useAuthStore()
     const config = useRuntimeConfig();
     const axiosInstance = axios.create({
-        baseURL: 'http://192.168.192.239:80/api',
+        baseURL: config.public.apiBaseUrl as string,
     })
 
     // 请求拦截器
@@ -26,7 +26,6 @@ export default defineNuxtPlugin(nuxtApp => {
             if (response.data.code !== 0) {
                 showDialog({ message: response.data.msg || '未知错误' });
                 return Promise.reject(new Error(response.data.msg || '未知错误'));
-
             }
             return response
         },
