@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev:jyb": "cross-env ENV_FILE=.env.jyb nuxt dev",
+    "dev:psm": "cross-env ENV_FILE=.env.psm nuxt dev",
     "build": "nuxt build",
-    "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@unocss/nuxt": "^65.4.0",
+    "cross-env": "^7.0.3",
     "unocss": "^65.4.0"
   }
 }

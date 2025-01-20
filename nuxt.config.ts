@@ -1,4 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+// 动态加载环境变量文件
+import { config } from 'dotenv';
+import { resolve } from 'path';
+const envFile = process.env.ENV_FILE || '.env';
+config({ path: resolve(process.cwd(), envFile) });
+
+console.log('Loaded API_BASE_URL:', process.env.API_BASE_URL);
+
 export default defineNuxtConfig({
     ssr: true,  // 确保 SSR 开启
     pages: true,
@@ -23,8 +31,16 @@ export default defineNuxtConfig({
     app: {
         head: {
             script: [
-                {src:'/js/gt4.js', type: 'text/javascript', defer: true},
+                {src: '/js/gt4.js', type: 'text/javascript', defer: true},
             ]
         }
+    },
+    runtimeConfig: {
+        // 默认环境变量（仅在服务器端可用）
+        apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:3000/api',
+        // 可公开的环境变量（通过 public 对象暴露到客户端）
+        public: {
+            apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:3000/api',
+        },
     }
 })

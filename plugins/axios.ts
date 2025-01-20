@@ -7,14 +7,13 @@ import {showDialog, showToast} from "vant";
 export default defineNuxtPlugin(nuxtApp => {
     //token 存储地方
     const authStore = useAuthStore()
-
+    const config = useRuntimeConfig();
     const axiosInstance = axios.create({
         baseURL: 'http://192.168.192.239:80/api',
     })
 
     // 请求拦截器
     axiosInstance.interceptors.request.use(config => {
-        console.log('Making request to ' + config.url)
         if (authStore.token) {
             config.headers['token'] = `${authStore.token}`
         }
