@@ -1,6 +1,4 @@
 <script setup lang="ts">
-
-
 import {useTitleStore} from "~/store/useDetailLayouts";
 import LoginTitle from "~/component/loginTitle.vue";
 import {showToast} from "vant";

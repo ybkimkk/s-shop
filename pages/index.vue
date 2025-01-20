@@ -3,11 +3,25 @@ import homeImage1 from '@/assets/img/home1.png';
 import homeImage2 from '@/assets/img/home2.png';
 import banner from '@/assets/img/banner.png';
 import {showDialog} from "vant";
+import { useAuthStore } from '~/store/auth';
 import type {Product, ProductListAPI} from '~/types/product';
+import type { CheckInvitedAPI } from '~/types/invite';
 
 const router = useRouter()
-const showHome1 = () => {
-  showDialog({message: '下单后可获得邀请功能'});
+const oAuth = useAuthStore()
+const showHome1 = async () => {
+
+  let reqCheckInvited = <CheckInvitedAPI> await useNuxtApp().$axios.get('/user/verifyToken',{
+    headers:{
+      token: oAuth.token
+    }
+  })
+
+  if (!reqCheckInvited.data.data.invitationCode){
+    showDialog({message: '下单后可获得邀请功能'});
+    return
+  }
+
   router.push('/account/invite');
 }
 const goTo = () => {
