@@ -3,11 +3,12 @@ import homeImage1 from '@/assets/img/home1.png';
 import homeImage2 from '@/assets/img/home2.png';
 import banner from '@/assets/img/banner.png';
 import {showDialog} from "vant";
-import type { ProductListAPI,Product } from '~/types/product';
+import type {Product, ProductListAPI} from '~/types/product';
 
 const router = useRouter()
 const showHome1 = () => {
   showDialog({message: '下单后可获得邀请功能'});
+  router.push('/account/invite');
 }
 const goTo = () => {
   router.push('/video');
@@ -16,16 +17,16 @@ const goTo = () => {
 const aProducts = ref<Product[]>()
 
 
-onMounted(async ()=>{
+onMounted(async () => {
 
   //商品列表
   try {
     let reqProductList = <ProductListAPI>await useNuxtApp().$axios.get('/product/list')
-      if (reqProductList.data.code === 0) aProducts.value = reqProductList.data.data
+    if (reqProductList.data.code === 0) aProducts.value = reqProductList.data.data
   } catch (error) {
     router.push('/')
   }
-  
+
 })
 
 </script>
@@ -52,7 +53,7 @@ onMounted(async ()=>{
     </van-swipe-item>
 
   </van-swipe>
-  
+
   <div class="container-page">
     <van-row class="m-y-3">
       <!--邀请朋友 -->
