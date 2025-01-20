@@ -3,7 +3,7 @@ import {useTitleStore} from "~/store/useDetailLayouts";
 import LoginTitle from "~/component/loginTitle.vue";
 import {showDialog, showToast} from "vant";
 
-import type { Register, RegisterAPI } from "~/types/user";
+import type { UserRegister, UserRegisterAPI } from "~/types/user";
 
 definePageMeta({
   layout: 'login'  // 使用指定的布局
@@ -13,19 +13,19 @@ const router = useRouter();
 // 设置页面标题
 titleStore.setTitle('注册');
 
-const oRegister = ref<Register>({
-  name: '123',
-  phone: '123',
-  email: '123',
-  password: '123',
-  code: '1234',
-  invitationCode: '1234',
+const oRegister = ref<UserRegister>({
+  name: '',
+  phone: '',
+  email: '',
+  password: '',
+  code: '',
+  invitationCode: '',
 });
 const isDisabled = ref(false);
 const loadingText = ref('发送验证码');
 const checked = ref(false);
 
-const onSubmit = async (values: Register) => {
+const onSubmit = async (values: UserRegister) => {
   if (!checked.value) {
     showToast('请阅读并同意协议');
     return;
@@ -33,7 +33,7 @@ const onSubmit = async (values: Register) => {
 
   let reqRegister
   try {
-    reqRegister = <RegisterAPI> await useNuxtApp().$axios.post('/user/register', values);
+    reqRegister = <UserRegisterAPI> await useNuxtApp().$axios.post('/user/register', values);
   } catch (error) {
     console.log(error)
     return

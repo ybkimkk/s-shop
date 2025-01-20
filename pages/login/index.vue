@@ -3,6 +3,8 @@ import {useTitleStore} from "~/store/useDetailLayouts";
 import LoginTitle from "~/component/loginTitle.vue";
 import {showToast} from "vant";
 
+import type { UserLogin, UserLoginAPI, UserLoginUI } from "~/types/user"
+
 definePageMeta({
   layout: 'login'  // 使用指定的布局
 })
@@ -16,41 +18,30 @@ titleStore.setTitle('登录');
 // 빈이:
 // 123456
 
-interface Form {
-  email: string,
-  password: string,
-  code: string,
-  type: number
-}
-
-interface api_user_login {
-  code: number,
-  msg: string,
-  data: string
-}
-
-//todo 换成邮箱 此正则可以在注册界面用
+//邮箱正则
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 //电话号码正则
-const phoneRegex = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
-const form = ref<Form>({
+//const phoneRegex = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+
+const oUserLogin = ref<UserLoginUI>({
   email: '',
   password: '',
   code: '',
-  type: 1,
+  type: 1
 });
 const isDisabled = ref(false);
 const loadingText = ref('发送验证码');
 const checked = ref(false);
 
-const onSubmit = async (values: Form) => {
+const onSubmit = async (values: UserLogin) => {
   if (!checked.value) {
     showToast('请阅读并同意协议');
     return;
   }
   let nEmail = values.email
-  let sPassword = values.password
+  let sPassword = <string>values.password
 
-  const fnCheckLoginData = function (phone:string, password:string) : boolean{
+  const fnCheckLoginData = function (email:string, password:string) : boolean{
 
 
     return true
@@ -59,35 +50,22 @@ const onSubmit = async (values: Form) => {
   if (fnCheckLoginData(nEmail,sPassword)) {
 
   }
-  
-  let res = await useFetch<api_user_login>('http://localhost:3001/api/user/login',{
-    method: 'POST',
-    body: {
-      email: nEmail,
-      password: sPassword
-    }
-  })
 
-  let reqdata = res.data.value
-
-  if (reqdata?.code == 0){
-    showToast('登录成功')
-    router.push('/')
-  } else {
-    //登陆失败
-    let errormsg = reqdata?.msg || '登陆失败'
-    showToast(errormsg)
+  let reqUserLogin
+  try {
+    reqUserLogin = <UserLoginAPI> await useNuxtApp().$axios.post('/user/login',values)
+  } catch (error) {
+    console.log(error);
+    return
   }
+
+  showToast('登陆成功')
+  navigateTo('/')
+
+
 };
 
 const sendCode =async () => {
-  //todo 这个可考虑不用
-  // let res = await useGlobalMethods().captcha();  
-
-  // if (!res) {
-  //   return;
-  // }
-
   isDisabled.value = true;
   let countdown = 60;
   loadingText.value = `${countdown}秒后重试`;
@@ -102,12 +80,11 @@ const sendCode =async () => {
   }, 1000); // 60秒后重新启用按钮
 
   //发送验证码
-  
+  await useNuxtApp().$axios.post('/email/send',oUserLogin.value.email)
 }
 
 const changeFrom = (type: number) => {
-  console.log(type);
-  form.value.type = type;
+  oUserLogin.value.type = type;
 }
 
 </script>
@@ -115,21 +92,21 @@ const changeFrom = (type: number) => {
 <template>
   <login-title title="登录亿本堂"></login-title>
   <van-form @submit="onSubmit">
-    <div v-if="form.type===1">
+    <div v-if="oUserLogin.type===1">
       <van-cell-group inset>
         <van-field
-            v-model="form.email"
+            v-model="oUserLogin.email"
             name="email"
             label="邮箱"
             placeholder="请输入邮箱"
             :rules="[
               { required: true, message: '请输入邮箱' },
-              { pattern:phoneRegex, message: '请输入正确邮箱'}
+              { pattern:emailRegex, message: '请输入正确邮箱'}
             ]"
         >
         </van-field>
         <van-field
-            v-model="form.password"
+            v-model="oUserLogin.password"
             type="password"
             name="password"
             label="密码"
@@ -140,24 +117,24 @@ const changeFrom = (type: number) => {
         />
       </van-cell-group>
     </div>
-    <div v-if="form.type===2">
+    <div v-if="oUserLogin.type===2">
       <van-cell-group inset>
         <van-field
-            v-model="form.email"
+            v-model="oUserLogin.email"
             name="email"
             label="邮箱"
             placeholder="请输入邮箱"
             :rules="[
               { required: true, message: '请输入邮箱' },
-              { pattern:phoneRegex, message: '请输入正确邮箱'}
+              { pattern:emailRegex, message: '请输入正确邮箱'}
             ]"
         >
         </van-field>
         <van-field
-            v-model="form.code"
+            v-model="oUserLogin.code"
             name="code"
-            label="验证码"
-            placeholder="请输入验证码"
+            label="邮箱验证码"
+            placeholder="请输入邮箱验证码"
             :rules="[{ required: true, message: '请输入验证码' }]"
         >
           <template #button>
@@ -173,9 +150,9 @@ const changeFrom = (type: number) => {
       </van-cell-group>
     </div>
     <div class="flex justify-between m-16">
-      <p @click="changeFrom(form.type===2?1:2)" class="color-purple">
+      <p @click="changeFrom(oUserLogin.type===2?1:2)" class="color-purple">
         <van-icon name="exchange"/>
-        {{ form.type === 1 ? '切换至邮箱登录' : '切换至密码登录' }}
+        {{ oUserLogin.type === 1 ? '切换至邮箱登录' : '切换至密码登录' }}
       </p>
       <nuxt-link to="/account/resetPassword"><p class="color-depp-gray">忘记密码?</p></nuxt-link>
     </div>
