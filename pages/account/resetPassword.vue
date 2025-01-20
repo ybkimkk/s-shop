@@ -52,7 +52,9 @@ const sendCode = async () => {
     }
   }, 1000); // 60秒后重新启用按钮
 
-  await useNuxtApp().$axios.post('/email/send',oPasswordForgot.value.email)
+  await useNuxtApp().$axios.post('/email/send',{
+    email: oPasswordForgot.value.email
+  })
 }
 </script>
 

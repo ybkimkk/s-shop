@@ -78,7 +78,9 @@ const sendCode =async () => {
   }, 1000); // 60秒后重新启用按钮
 
   //发送验证码
-  await useNuxtApp().$axios.post('/email/send',oUserLogin.value.email)
+  await useNuxtApp().$axios.post('/email/send',{
+    email: oUserLogin.value.email
+  })
 }
 
 const changeFrom = (type: number) => {
