@@ -41,8 +41,8 @@ const onSubmit = async (values: UserLogin) => {
   let nEmail = values.email
   let sPassword = <string>values.password
 
+  //校验方法
   const fnCheckLoginData = function (email:string, password:string) : boolean{
-
 
     return true
   }
@@ -61,8 +61,6 @@ const onSubmit = async (values: UserLogin) => {
 
   showToast('登陆成功')
   navigateTo('/')
-
-
 };
 
 const sendCode =async () => {

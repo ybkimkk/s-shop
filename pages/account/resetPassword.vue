@@ -1,8 +1,9 @@
 <script setup lang="ts">
-
-
 import {useTitleStore} from "~/store/useDetailLayouts";
 import LoginTitle from "~/component/loginTitle.vue";
+import { showToast } from "vant";
+
+import type { UserLogin, UserLoginAPI } from "~/types/user";
 
 definePageMeta({
   layout: 'login'  // 使用指定的布局
@@ -11,13 +12,7 @@ const titleStore = useTitleStore();
 // 设置页面标题
 titleStore.setTitle('重置密码');
 
-interface Form {
-  email: string;
-  code: string;
-  password: string;
-}
-
-const form = ref<Form>({
+const oPasswordForgot = ref<UserLogin>({
   email: '',
   code: '',
   password: '',
@@ -25,9 +20,18 @@ const form = ref<Form>({
 const isDisabled = ref(false);
 const loadingText = ref('发送验证码');
 
-const onSubmit = (values: Form) => {
+const onSubmit = async (values: UserLogin) => {
 
-  console.log('submit', values);
+  let reqPasswordForgot
+  try {
+    reqPasswordForgot = <UserLoginAPI> await useNuxtApp().$axios.post('/user/forgot', values)
+  } catch(error){
+    console.log(error);
+    return;
+  }
+
+  showToast('修改成功')
+  navigateTo('/login')
 };
 
 const sendCode = async () => {
@@ -47,6 +51,8 @@ const sendCode = async () => {
       loadingText.value = '发送验证码'; // 重置文本
     }
   }, 1000); // 60秒后重新启用按钮
+
+  await useNuxtApp().$axios.post('/email/send',oPasswordForgot.value.email)
 }
 </script>
 
@@ -55,7 +61,7 @@ const sendCode = async () => {
   <van-form @submit="onSubmit">
     <van-cell-group inset>
       <van-field
-          v-model="form.email"
+          v-model="oPasswordForgot.email"
           name="email"
           label="邮箱"
           placeholder="请输入邮箱"
@@ -63,7 +69,7 @@ const sendCode = async () => {
       >
       </van-field>
       <van-field
-          v-model="form.code"
+          v-model="oPasswordForgot.code"
           name="code"
           label="验证码"
           placeholder="请输入验证码"
@@ -78,7 +84,7 @@ const sendCode = async () => {
         `
       </van-field>
       <van-field
-          v-model="form.password"
+          v-model="oPasswordForgot.password"
           type="password"
           name="password"
           label="密码"
