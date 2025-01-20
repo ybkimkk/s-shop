@@ -122,8 +122,8 @@ const sendCode = async () => {
           name="invitationCode"
           label="邀请码"
           placeholder="请输入邀请码"
-          :rules="[{ required: true, message: '请输入邀请码' }]"
       />
+      <!-- :rules="[{ required: true, message: '请输入邀请码' }]" -->
     </van-cell-group>
 
     <div class="m-16 m-t-10">
