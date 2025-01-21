@@ -26,7 +26,8 @@ export default defineNuxtConfig({
     ],
     plugins: [
         // 加载 Vant 插件
-        '~/plugins/index.ts'
+        '~/plugins/index.ts',
+        '~/plugins/middleware.ts',
     ],
     app: {
         head: {

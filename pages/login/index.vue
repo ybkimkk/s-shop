@@ -162,9 +162,12 @@ const changeFrom = (type: number) => {
       </van-button>
     </div>
     <div class="m-16">
-      <van-button url="/register" color="#090909" round block plain type="primary" native-type="submit">
+      <nuxt-link to="/register">
+        <van-button  color="#090909" round block plain type="primary" native-type="submit">
         注册新账号
       </van-button>
+      </nuxt-link>
+
     </div>
   </van-form>
   <div class="m-t-10">

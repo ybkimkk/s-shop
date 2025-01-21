@@ -4,6 +4,7 @@ export interface UserRegister {
     name: string,
     phone: string,
     email: string,
+    token: string,
     invitationCode: string,
     password: string,
     code: string
